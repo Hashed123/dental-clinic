@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+
+<html lang="ar" dir="rtl">
+
+<head> <meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>لوحة تحكم العيادة | الدكتور مجدالدين</title>
+
+<link
+    rel="stylesheet"
+    href="admin.css"
+>
+
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header class="admin-header">
+
+    <div class="header-content">
+
+        <div>
+            <h1>لوحة تحكم العيادة</h1>
+
+            <p>
+                الدكتور مجدالدين محمد إسماعيل شرف الدين
+            </p>
+        </div>
+
+        <div class="header-actions">
+
+            <a
+                href="../index.html"
+                class="back-btn"
+            >
+                العودة للموقع
+            </a>
+
+            <button
+                id="logoutBtn"
+                class="logout-btn"
+            >
+                تسجيل الخروج
+            </button>
+
+        </div>
+
+    </div>
+
+</header>
+
+
+<!-- MAIN -->
+<main class="admin-container">
+
+    <!-- PAGE TITLE -->
+    <section class="page-title">
+
+        <div>
+            <h2>المواعيد</h2>
+
+            <p>
+                إدارة ومتابعة مواعيد المرضى
+            </p>
+        </div>
+
+        <div class="page-actions">
+
+            <button
+                id="addAppointmentBtn"
+                class="add-appointment-btn"
+            >
+                ➕ إضافة موعد
+            </button>
+
+            <button
+                id="refreshBtn"
+                class="refresh-btn"
+            >
+                🔄 تحديث المواعيد
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- STATISTICS -->
+    <section class="stats-grid">
+
+        <div class="stat-card">
+            <span class="stat-label">
+                إجمالي المواعيد
+            </span>
+
+            <strong id="totalAppointments">
+                0
+            </strong>
+        </div>
+
+        <div class="stat-card">
+            <span class="stat-label">
+                مواعيد اليوم
+            </span>
+
+            <strong id="todayAppointments">
+                0
+            </strong>
+        </div>
+
+        <div class="stat-card">
+            <span class="stat-label">
+                القادمة
+            </span>
+
+            <strong id="upcomingAppointments">
+                0
+            </strong>
+        </div>
+
+        <div class="stat-card">
+            <span class="stat-label">
+                جديدة
+            </span>
+
+            <strong id="newAppointments">
+                0
+            </strong>
+        </div>
+
+        <div class="stat-card">
+            <span class="stat-label">
+                مؤكدة
+            </span>
+
+            <strong id="confirmedAppointments">
+                0
+            </strong>
+        </div>
+
+        <div class="stat-card">
+            <span class="stat-label">
+                مكتملة
+            </span>
+
+            <strong id="completedAppointments">
+                0
+            </strong>
+        </div>
+
+        <div class="stat-card">
+            <span class="stat-label">
+                ملغاة
+            </span>
+
+            <strong id="cancelledAppointments">
+                0
+            </strong>
+        </div>
+
+    </section>
+
+
+    <!-- SEARCH -->
+    <section class="search-section">
+
+        <div class="search-box">
+
+            <span class="search-icon">
+                🔍
+            </span>
+
+            <input
+                type="search"
+                id="searchInput"
+                placeholder="ابحث باسم المريض أو رقم الهاتف أو الخدمة أو الملاحظات..."
+                autocomplete="off"
+            >
+
+            <button
+                type="button"
+                id="clearSearchBtn"
+                class="clear-search-btn"
+                title="مسح البحث"
+            >
+                ×
+            </button>
+
+        </div>
+
+        <div
+            id="searchResultInfo"
+            class="search-result-info"
+        ></div>
+
+    </section>
+
+
+    <!-- FILTERS -->
+    <div class="filters">
+
+        <button
+            class="filter-btn active"
+            data-status="all"
+        >
+            كل المواعيد
+        </button>
+
+        <button
+            class="filter-btn"
+            data-status="new"
+        >
+            جديدة
+        </button>
+
+        <button
+            class="filter-btn"
+            data-status="confirmed"
+        >
+            مؤكدة
+        </button>
+
+        <button
+            class="filter-btn"
+            data-status="completed"
+        >
+            مكتملة
+        </button>
+
+        <button
+            class="filter-btn"
+            data-status="cancelled"
+        >
+            ملغاة
+        </button>
+
+    </div>
+
+
+    <!-- APPOINTMENTS TABLE -->
+    <section class="appointments-section">
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+
+                        <th>رقم</th>
+
+                        <th>اسم المريض</th>
+
+                        <th>رقم الهاتف</th>
+
+                        <th>الخدمة</th>
+
+                        <th>التاريخ</th>
+
+                        <th>الملاحظات</th>
+
+                        <th>تاريخ الحجز</th>
+
+                        <th>الحالة</th>
+
+                        <th>الإجراءات</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody id="appointmentsTableBody">
+
+                    <tr>
+
+                        <td
+                            colspan="9"
+                            class="loading"
+                        >
+                            جاري تحميل المواعيد...
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+
+    <!-- EDIT MODAL -->
+    <div
+        id="editModal"
+        class="modal"
+    >
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h2>تعديل الموعد</h2>
+
+                <button
+                    id="closeModal"
+                    class="close-modal"
+                >
+                    ×
+                </button>
+
+            </div>
+
+            <form id="editForm">
+
+                <input
+                    type="hidden"
+                    id="editId"
+                >
+
+                <div class="form-group">
+
+                    <label for="editName">
+                        اسم المريض
+                    </label>
+
+                    <input
+                        type="text"
+                        id="editName"
+                        required
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="editPhone">
+                        رقم الهاتف
+                    </label>
+
+                    <input
+                        type="text"
+                        id="editPhone"
+                        required
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="editService">
+                        الخدمة
+                    </label>
+
+                    <select
+                        id="editService"
+                        required
+                    >
+
+                        <option value="فحص الأسنان">
+                            فحص الأسنان
+                        </option>
+
+                        <option value="تنظيف الأسنان">
+                            تنظيف الأسنان
+                        </option>
+
+                        <option value="تبييض الأسنان">
+                            تبييض الأسنان
+                        </option>
+
+                        <option value="حشو الأسنان">
+                            حشو الأسنان
+                        </option>
+
+                        <option value="خلع الأسنان">
+                            خلع الأسنان
+                        </option>
+
+                        <option value="علاج العصب">
+                            علاج العصب
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="editDate">
+                        التاريخ
+                    </label>
+
+                    <input
+                        type="date"
+                        id="editDate"
+                        required
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="editMessage">
+                        الملاحظات
+                    </label>
+
+                    <textarea
+                        id="editMessage"
+                        rows="4"
+                    ></textarea>
+
+                </div>
+
+                <div class="modal-actions">
+
+                    <button
+                        type="submit"
+                        class="save-edit-btn"
+                    >
+                        💾 حفظ التعديل
+                    </button>
+
+                    <button
+                        type="button"
+                        id="cancelEdit"
+                        class="cancel-edit-btn"
+                    >
+                        إلغاء
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- ADD MODAL -->
+    <div
+        id="addModal"
+        class="modal"
+    >
+
+        <div class="modal-content">
+
+            <div class="modal-header">
+
+                <h2>إضافة موعد جديد</h2>
+
+                <button
+                    id="closeAddModal"
+                    class="close-modal"
+                >
+                    ×
+                </button>
+
+            </div>
+
+            <form id="addForm">
+
+                <div class="form-group">
+
+                    <label for="addName">
+                        اسم المريض
+                    </label>
+
+                    <input
+                        type="text"
+                        id="addName"
+                        required
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="addPhone">
+                        رقم الهاتف
+                    </label>
+
+                    <input
+                        type="text"
+                        id="addPhone"
+                        required
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="addService">
+                        الخدمة
+                    </label>
+
+                    <select
+                        id="addService"
+                        required
+                    >
+
+                        <option value="">
+                            اختر الخدمة
+                        </option>
+
+                        <option value="فحص الأسنان">
+                            فحص الأسنان
+                        </option>
+
+                        <option value="تنظيف الأسنان">
+                            تنظيف الأسنان
+                        </option>
+
+                        <option value="تبييض الأسنان">
+                            تبييض الأسنان
+                        </option>
+
+                        <option value="حشو الأسنان">
+                            حشو الأسنان
+                        </option>
+
+                        <option value="خلع الأسنان">
+                            خلع الأسنان
+                        </option>
+
+                        <option value="علاج العصب">
+                            علاج العصب
+                        </option>
+
+                    </select>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="addDate">
+                        التاريخ
+                    </label>
+
+                    <input
+                        type="date"
+                        id="addDate"
+                        required
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="addMessage">
+                        الملاحظات
+                    </label>
+
+                    <textarea
+                        id="addMessage"
+                        rows="4"
+                    ></textarea>
+
+                </div>
+
+                <div class="modal-actions">
+
+                    <button
+                        type="submit"
+                        class="save-edit-btn"
+                    >
+                        ➕ إضافة الموعد
+                    </button>
+
+                    <button
+                        type="button"
+                        id="cancelAdd"
+                        class="cancel-edit-btn"
+                    >
+                        إلغاء
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</main>
+
+
+<!-- OLD PROTECTION — KEPT AS REQUESTED -->
+<script>
+    if (sessionStorage.getItem("adminLoggedIn") !== "true") {
+        window.location.href = "../login.html";
+    }
+</script>
+
+<script src="admin.js"></script>
+
+</body>
+
+</html>

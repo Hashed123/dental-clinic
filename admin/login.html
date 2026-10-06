@@ -1,0 +1,94 @@
+```html
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>تسجيل الدخول | لوحة تحكم العيادة</title>
+
+    <link
+        rel="stylesheet"
+        href="login.css"
+    >
+</head>
+
+<body>
+
+    <div class="login-container">
+
+        <div class="login-card">
+
+            <div class="login-icon">
+                🦷
+            </div>
+
+            <h1>
+                لوحة تحكم العيادة
+            </h1>
+
+            <p>
+                تسجيل الدخول للمدير
+            </p>
+
+            <form id="loginForm">
+
+                <div class="form-group">
+
+                    <label for="username">
+                        اسم المستخدم
+                    </label>
+
+                    <input
+                        type="text"
+                        id="username"
+                        placeholder="أدخل اسم المستخدم"
+                        required
+                    >
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="password">
+                        كلمة المرور
+                    </label>
+
+                    <input
+                        type="password"
+                        id="password"
+                        placeholder="أدخل كلمة المرور"
+                        required
+                    >
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="login-btn"
+                >
+                    تسجيل الدخول
+                </button>
+
+                <p
+                    id="loginMessage"
+                    class="login-message"
+                ></p>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <script src="login.js"></script>
+
+</body>
+
+</html>
+```
